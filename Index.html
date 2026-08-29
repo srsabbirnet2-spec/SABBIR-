@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date Invitation</title>
+  <style>
+    :root {
+      --bg-color: #f7f1f0;
+      --card-bg: #eaf4ed;
+      --primary-color: #d62862;
+      --primary-hover: #b81d4f;
+      --text-color: #5c2231;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text-color);
+      padding: 20px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      width: 100%;
+      max-width: 420px;
+      padding: 30px 24px;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      position: relative;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    h1, h2 {
+      font-size: 1.5rem;
+      color: var(--text-color);
+      line-height: 1.3;
+    }
+
+    p {
+      font-size: 0.9rem;
+      font-style: italic;
+      color: #7d4856;
+    }
+
+    .img-wrapper {
+      width: 110px;
+      height: 110px;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    /* Step 2 Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+
+    .grid-item {
+      background: white;
+      border: 2px solid transparent;
+      border-radius: 14px;
+      padding: 14px 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+    }
+
+    .grid-item span {
+      font-size: 1.8rem;
+    }
+
+    .grid-item.selected {
+      border-color: var(--primary-color);
+      background-color: #fff0f4;
+    }
+
+    /* Inputs */
+    input[type="date"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      outline: none;
+      text-align: center;
+    }
+
+    .hearts {
+      color: var(--primary-color);
+      letter-spacing: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- Screen 1: The Question -->
+    <div class="screen active" id="screen-1">
+      <div class="img-wrapper">
+        <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=300" alt="Cute dog">
+      </div>
+      <h2>🌸 Will you go on a date with me? 🌸</h2>
+      <div class="btn-group">
+        <button onclick="nextScreen('screen-1', 'screen-2')">YES 💕</button>
+      </div>
+    </div>
+
+    <!-- Screen 2: Acceptance -->
+    <div class="screen" id="screen-2">
+      <div class="img-wrapper">
+        <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=300" alt="Happy pet">
+      </div>
+      <h2>WAIT YOU ACTUALLY SAID YES?? 😭</h2>
+      <p>I was so ready for you to say no 😅</p>
+      <button onclick="nextScreen('screen-2', 'screen-3')">okay, okay! →</button>
+    </div>
+
+    <!-- Screen 3: Food Pick -->
+    <div class="screen" id="screen-3">
+      <h2>What are we feeling? 🍽️✨</h2>
+      <p>pick your vibe</p>
+      <div class="grid">
+        <div class="grid-item" onclick="selectFood(this)"><span>🍕</span>Pizza</div>
+        <div class="grid-item" onclick="selectFood(this)"><span>🍣</span>Sushi</div>
+        <div class="grid-item" onclick="selectFood(this)"><span>🍔</span>Burgers</div>
+        <div class="grid-item" onclick="selectFood(this)"><span>🍝</span>Pasta</div>
+        <div class="grid-item" onclick="selectFood(this)"><span>🌮</span>Tacos</div>
+        <div class="grid-item" onclick="selectFood(this)"><span>🍜</span>Ramen</div>
+      </div>
+      <button onclick="nextScreen('screen-3', 'screen-4')" style="margin-top: 10px;">Next →</button>
+    </div>
+
+    <!-- Screen 4: Date Picker -->
+    <div class="screen" id="screen-4">
+      <h2>So... when are you free? 🗓️</h2>
+      <p>Pick a Day 📅</p>
+      <input type="date" id="date-input">
+      <button onclick="nextScreen('screen-4', 'screen-5')">Confirm Date! ❤️</button>
+    </div>
+
+    <!-- Screen 5: Final Confirmation -->
+    <div class="screen" id="screen-5">
+      <h2>glad you didn't say no. be ready by 6, I'm coming to get you 🚗</h2>
+      <p>P.S. normal people text. I made a website for you, no big deal.</p>
+      <div class="hearts">♥ ♥ ♥ ♥ ♥</div>
+      <button onclick="alert('It\'s a date! 🎉')">ok I accept 🥰</button>
+    </div>
+
+  </div>
+
+  <script>
+    function nextScreen(currentId, nextId) {
+      document.getElementById(currentId).classList.remove('active');
+      document.getElementById(nextId).classList.add('active');
+    }
+
+    function selectFood(element) {
+      document.querySelectorAll('.grid-item').forEach(item => {
+        item.classList.remove('selected');
+      });
+      element.classList.add('selected');
+    }
+  </script>
+</body>
+</html>
+
